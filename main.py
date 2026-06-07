@@ -44,6 +44,7 @@ def fetch_poster(movie_title):
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
+    movie_index = int(movie_index)  # ✅ convert to integer
     distances = list(enumerate(similarity[movie_index]))
     distances = sorted(distances, reverse=True, key=lambda x: x[1])[1:6]
 
@@ -59,7 +60,6 @@ def recommend(movie):
         recommended_movies_posters.append(poster)
 
     return recommended_movies, recommended_movies_posters
-
 
 movies_dict = pickle.load(open("movies_dict.pkl", "rb"))
 movies = pd.DataFrame(movies_dict)
