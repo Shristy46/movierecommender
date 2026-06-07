@@ -43,33 +43,17 @@ def fetch_poster(movie_title):
 
 
 def recommend(movie):
-    import numpy as np
+    index = movies[movies['title'] == movie].index[0]
+    distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
+    recommended_movie_names = []
+    recommended_movie_posters = []
+    for i in distances[1:6]:
+        # fetch the movie poster
+        movie_id = movies.iloc[i[0]].movie_id
+        recommended_movie_posters.append(fetch_poster(movie_id))
+        recommended_movie_names.append(movies.iloc[i[0]].title)
 
-    global similarity
-    similarity = np.array(similarity)  # ✅ convert to numpy array
-
-    movie_index = movies[movies['title'] == movie].index[0]
-    movie_index = int(movie_index)
-
-    st.write(f"movie_index: {movie_index}")
-    st.write(f"similarity shape: {similarity.shape}")
-    st.write(f"movies shape: {movies.shape}")
-
-    distances = list(enumerate(similarity[movie_index]))
-    distances = sorted(distances, reverse=True, key=lambda x: x[1])[1:6]
-
-    recommended_movies = []
-    recommended_movies_posters = []
-
-    for i in distances:
-        movie_title = movies.iloc[i[0]].title
-        poster = fetch_poster(movie_title)
-        if not poster:
-            poster = FALLBACK_POSTER
-        recommended_movies.append(movie_title)
-        recommended_movies_posters.append(poster)
-
-    return recommended_movies, recommended_movies_posters
+    return recommended_movie_names,recommended_movie_posters
 
 movies_dict = pickle.load(open("movies_dict.pkl", "rb"))
 movies = pd.DataFrame(movies_dict)
