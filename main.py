@@ -13,13 +13,13 @@ import os
 
 # Download pkl files from Google Drive if not present
 if not os.path.exists("similarity.pkl"):
-    gdown.download("https://drive.google.com/uc?id=1UDZxKauKeXqzJcARz9R66OW7N5BC2gxd", "similarity.pkl", quiet=False)
+    gdown.download("https://drive.google.com/uc?id=1UDZxKauKeXqzJcARz9R66OW7N5BC2gxd", "similarity.pkl", quiet=False,fuzzy=True)
 
 if not os.path.exists("movies_dict.pkl"):
-    gdown.download("https://drive.google.com/uc?id=10KxE4vBFso484UY0RWkjTYISedIjN1CZ", "movies_dict.pkl", quiet=False)
+    gdown.download("https://drive.google.com/uc?id=10KxE4vBFso484UY0RWkjTYISedIjN1CZ", "movies_dict.pkl", quiet=False,fuzzy=True)
 
 if not os.path.exists("movies.pkl"):
-    gdown.download("https://drive.google.com/uc?id=1OoMZlKFgcaj6BbYegbA_rxTbHohBjeuT", "movies.pkl", quiet=False)
+    gdown.download("https://drive.google.com/uc?id=1OoMZlKFgcaj6BbYegbA_rxTbHohBjeuT", "movies.pkl", quiet=False,fuzzy=True)
 
 
 FALLBACK_POSTER = "https://via.placeholder.com/300x450.png?text=No+Poster"
