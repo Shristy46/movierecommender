@@ -43,12 +43,14 @@ def fetch_poster(movie_title):
 
 
 def recommend(movie):
-    # Load similarity correctly
-    sim = similarity
-    if isinstance(sim, np.ndarray) and sim.shape == ():
-        sim = sim.item()  # unwrap 0-d array
-    if not isinstance(sim, np.ndarray):
-        sim = np.array(sim)
+    try:
+        sim = pickle.load(open("similarity.pkl", "rb"))
+    except:
+        sim = similarity
+
+    # Convert whatever type it is to a list of lists
+    if hasattr(sim, 'tolist'):
+        sim = sim.tolist()
 
     movie_index = movies[movies['title'] == movie].index[0]
     movie_index = int(movie_index)
@@ -64,11 +66,10 @@ def recommend(movie):
         poster = fetch_poster(movie_title)
         if not poster:
             poster = FALLBACK_POSTER
-            recommended_movies.append(movie_title)
-            recommended_movies_posters.append(poster)
+        recommended_movies.append(movie_title)
+        recommended_movies_posters.append(poster)
 
-        return recommended_movies, recommended_movies_posters
-
+    return recommended_movies, recommended_movies_posters
 
 movies_dict = pickle.load(open("movies_dict.pkl", "rb"))
 movies = pd.DataFrame(movies_dict)
