@@ -12,6 +12,10 @@ import gdown
 import os
 
 # Download pkl files from Google Drive if not present
+# Force re-download correct files
+if os.path.exists("similarity.pkl"):
+    os.remove("similarity.pkl")
+
 if not os.path.exists("similarity.pkl"):
     gdown.download("https://drive.google.com/uc?id=1UDZxKauKeXqzJcARz9R66OW7N5BC2gxd", "similarity.pkl", quiet=False)
 
