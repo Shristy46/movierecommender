@@ -43,33 +43,22 @@ def fetch_poster(movie_title):
 
 
 def recommend(movie):
-    try:
-        sim = pickle.load(open("similarity.pkl", "rb"))
-    except:
-        sim = similarity
+    sim = pickle.load(open("similarity.pkl", "rb"))
 
-    # Convert whatever type it is to a list of lists
-    if hasattr(sim, 'tolist'):
-        sim = sim.tolist()
+    st.write(f"sim type: {type(sim)}")
+    if isinstance(sim, dict):
+        st.write(f"sim keys sample: {list(sim.keys())[:5]}")
+    elif hasattr(sim, 'shape'):
+        st.write(f"sim shape: {sim.shape}")
+    else:
+        st.write(f"sim length: {len(sim)}")
 
     movie_index = movies[movies['title'] == movie].index[0]
     movie_index = int(movie_index)
+    st.write(f"movie_index: {movie_index}")
 
-    distances = list(enumerate(sim[movie_index]))
-    distances = sorted(distances, reverse=True, key=lambda x: x[1])[1:6]
+    return [], []
 
-    recommended_movies = []
-    recommended_movies_posters = []
-
-    for idx, score in distances:
-        movie_title = movies.iloc[idx].title
-        poster = fetch_poster(movie_title)
-        if not poster:
-            poster = FALLBACK_POSTER
-        recommended_movies.append(movie_title)
-        recommended_movies_posters.append(poster)
-
-    return recommended_movies, recommended_movies_posters
 
 movies_dict = pickle.load(open("movies_dict.pkl", "rb"))
 movies = pd.DataFrame(movies_dict)
