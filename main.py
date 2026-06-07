@@ -8,9 +8,21 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gdown
+import os
+
+# Download pkl files from Google Drive if not present
+if not os.path.exists("similarity.pkl"):
+    gdown.download("https://drive.google.com/uc?id=1UDZxKauKeXqzJcARz9R66OW7N5BC2gxd", "similarity.pkl", quiet=False)
+
+if not os.path.exists("movies_dict.pkl"):
+    gdown.download("https://drive.google.com/uc?id=10KxE4vBFso484UY0RWkjTYISedIjN1CZ", "movies_dict.pkl", quiet=False)
+
+if not os.path.exists("movies.pkl"):
+    gdown.download("https://drive.google.com/uc?id=1OoMZlKFgcaj6BbYegbA_rxTbHohBjeuT", "movies.pkl", quiet=False)
+
 
 FALLBACK_POSTER = "https://via.placeholder.com/300x450.png?text=No+Poster"
-
 
 def fetch_poster(movie_title):
     try:
@@ -21,12 +33,10 @@ def fetch_poster(movie_title):
         )
         data = response.json()
         poster = data.get("Poster", "")
-
         if poster and poster != "N/A":
             return poster
         else:
             return FALLBACK_POSTER
-
     except Exception as e:
         print(f"Error fetching poster for {movie_title}: {e}")
         return FALLBACK_POSTER
@@ -43,11 +53,8 @@ def recommend(movie):
     for i in movies_list:
         movie_title = movies.iloc[i[0]].title
         poster = fetch_poster(movie_title)
-
-        # Safety check — never append None
         if not poster:
             poster = FALLBACK_POSTER
-
         recommended_movies.append(movie_title)
         recommended_movies_posters.append(poster)
 
