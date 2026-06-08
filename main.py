@@ -17,7 +17,7 @@ if os.path.exists("similarity.pkl"):
     os.remove("similarity.pkl")
 
 if not os.path.exists("similarity.pkl"):
-    gdown.download(id="1UDZxKauKeXqzJcARz9R66OW7N5BC2gxd", output="similarity.pkl", quiet=False)
+    gdown.download(id="1U4kAXZzPTMJpIyBcy5JdYZ4KaOkroO0E", output="similarity.pkl", quiet=False)
 
 if not os.path.exists("movies_dict.pkl"):
     gdown.download(id="10KxE4vBFso484UY0RWkjTYISedIjN1CZ", output="movies_dict.pkl", quiet=False)
